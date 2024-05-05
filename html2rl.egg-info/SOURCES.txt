@@ -2,6 +2,7 @@ CHANGELOG.txt
 LICENSE
 MANIFEST.in
 README.md
+pyproject.toml
 run.py
 setup.py
 .venv/Lib/site-packages/pip/__init__.py
