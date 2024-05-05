@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from reportlab.platypus import Paragraph
 
-def cleanHTML(rich_text, font_name):
+def cleanHTML(rich_text, boldItalic_fontName):
     soup = BeautifulSoup(rich_text, 'html.parser')
 
     for pTag in soup.find_all('p'):
@@ -34,7 +34,7 @@ def cleanHTML(rich_text, font_name):
                 for italic_tag in italic_tags_inside_bold:
                     # Replace <b><i> tags with appropriate font tag
                     italic_tag.name = 'font'
-                    italic_tag['name'] = font_name  # Specify the bold italic font
+                    italic_tag['name'] = boldItalic_fontName  # Specify the bold italic font
 
                     # Remove the <b> tag
                     tag.unwrap()
@@ -44,7 +44,7 @@ def cleanHTML(rich_text, font_name):
     
     return str(soup)
 
-def toRParagraph(rich_text, styleList):
+def toRParagraph(rich_text, normal_style):
     para_list = rich_text.split('<br/>')
     list_of_para = []
     for para in para_list:
@@ -54,14 +54,14 @@ def toRParagraph(rich_text, styleList):
             bullet_count = 1
             for li in liTags:
                 if li.parent.name == 'ul':
-                    para_obj = Paragraph(f"""{li}""", style=styleList["ContentCal"], bulletText='●')
+                    para_obj = Paragraph(f"""{li}""", style=normal_style, bulletText='●')
                     list_of_para.append([para_obj])
                 elif li.parent.name == 'ol':
-                    para_obj = Paragraph(f"""{li}""", style=styleList["ContentCal"], bulletText=str(bullet_count))
+                    para_obj = Paragraph(f"""{li}""", style=normal_style, bulletText=str(bullet_count))
                     list_of_para.append([para_obj])
                     bullet_count += 1
         else:
-            para_obj = Paragraph(f"""{para}""", style=styleList["ContentCal"])
+            para_obj = Paragraph(f"""{para}""", style=normal_style)
             list_of_para.append([para_obj])
 
     return list_of_para

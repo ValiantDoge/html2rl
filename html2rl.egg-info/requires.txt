@@ -1,0 +1,6 @@
+beautifulsoup4
+reportlab
+
+[dev]
+pytest>=7.0
+twine
